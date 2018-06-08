@@ -5,11 +5,12 @@ var Lobby = mongoose.model('Lobby');
 
 exports.poll = function(req, res) {
     var playerCount = 0;
-    
-    var playerCount = Lobby.find({});
 
-    console.log(playerCount);
-    res.json(playerCount);
+    Lobby.count({}, function(err, count) {
+        if (err) res.send(err);
+
+        res.json(count);
+    });
 };
 
 exports.connect = function(req, res) {
