@@ -1,0 +1,19 @@
+{
+  "name": "hackathon",
+  "version": "1.0.0",
+  "description": "Multiplayer server for Facebook Camera Effects Hack-a-thon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jamie Poole",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamiePoole/MultiplayerHackathon.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JamiePoole/MultiplayerHackathon/issues"
+  },
+  "homepage": "https://github.com/JamiePoole/MultiplayerHackathon#readme"
+}
