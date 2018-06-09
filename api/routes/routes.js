@@ -8,6 +8,8 @@ module.exports = function(app) {
     app.route('/lobby/create').post(lobby.create);
 
     var match = require('../controllers/matchController');
-    app.route('/match/turn').get(match.turn);
+
     app.route('/match').get(match.poll);
+    app.route('/match/find').post(match.exists);
+    app.route('/match/turn').get(match.turn);
 };

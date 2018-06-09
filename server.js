@@ -6,7 +6,7 @@ var bodyParser = require('body-parser');
 var Lobby = require('./api/models/lobbyModel');
 var Match = require('./api/models/matchModel');
 
-var Routes = require('./api/routes/lobbyRoutes');
+var Routes = require('./api/routes/routes');
 
 // Database Connection
 mongoose.Promise = global.Promise;
