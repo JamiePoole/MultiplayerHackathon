@@ -12,7 +12,7 @@ var lobbySchema = new Schema({
     },
     public: {
         type: Boolean,
-        default: false
+        default: true
     },
     created_at: {
         type: Date,
