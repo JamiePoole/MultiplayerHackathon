@@ -17,7 +17,7 @@ exports.poll = function(req, res) {
 exports.connect = function(req, res) {
     // Player ID required
     if (typeof req.body !== 'undefined' && req.body.player_id) {
-        if (req.body.code && !req.body.public) {
+        if (req.body.code && req.body.public == 'false') {
             // JOIN LOCAL GAME - Has provided a room code and isn't public
             Lobby.findOneAndRemove({ code: req.body.code, public: false }, function(err, lobby) {
                 if (err) res.send(err);
@@ -31,7 +31,7 @@ exports.connect = function(req, res) {
                     newMatch.save(function(err, match){
                         if (err) res.send(err);
 
-                        res.json({ status: 'MATCHED', match_id: match.id, opponent_id: match.owner_id });
+                        res.json({ status: 'MATCHED LOCAL GAME', match_id: match._id, opponent_id: match.owner_id });
                     });
                 }
                 else {
@@ -42,7 +42,7 @@ exports.connect = function(req, res) {
                 }
             });
         }
-        else if (!req.body.public && typeof req.body.code == 'undefined') {
+        else if (req.body.public == 'false' && typeof req.body.code == 'undefined') {
             // HOST LOCAL GAME -- not a public game and no code provided
             var roomCode = '';
             for (var i = 0; i < 3; i++) {
@@ -60,9 +60,9 @@ exports.connect = function(req, res) {
                 res.json({ status: 'CREATED', code: lobby.code });
             });
         }
-        else {
+        else if (req.body.public == 'true' || typeof req.body.public == 'undefined') {
             // REMOTE GAME -- No code provided and game isn't public
-            console.log('No Lobby Id -- matchmaking');
+            console.log('REMOTE: No Lobby Id');
             Lobby.findOneAndRemove({ public: true }, function(err, lobby) {
                 if (err) res.send(err);
 
@@ -70,19 +70,19 @@ exports.connect = function(req, res) {
                     // JOIN REMOTE GAME -- a host/opponent was available
                     console.log('Matched with a user!');
 
-                    var newMatch = new Match({ owner_id: lobby.owner_id, opponent_id: req.body.player_id});
+                    var newMatch = new Match({ owner_id: lobby.owner_id, opponent_id: req.body.player_id });
                     
                     newMatch.save(function(err, match){
                         if (err) res.send(err);
 
-                        res.json({ status: 'MATCHED', match_id: match.id, opponent_id: match.owner_id });
+                        res.json({ status: 'MATCHED', match_id: match._id, opponent_id: match.owner_id });
                     });
                 }
                 else {
                     // HOST REMOTE GAME -- no other opponents available
                     var newLobby = new Lobby(req.body);
 
-                    newLobby.save(function(err, lobby) {
+                    newLobby.save(function(err) {
                         if (err) res.send(err);
 
                         res.json({ status: 'CREATED' });

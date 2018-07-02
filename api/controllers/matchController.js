@@ -7,10 +7,8 @@ var Match = mongoose.model('Match');
 exports.exists = function(req, res) {
     if (typeof req.body !== 'undefined' && typeof req.body.owner_id !== 'undefined') {
         Match.findOne({ owner_id: req.body.owner_id }, function(err, match) {
-            if (error || !match) {
-                res.status(404).json({
-                  error: "Match doc not found with Owner ID: " + req.body.owner_id 
-                });
+            if (err || !match) {
+                res.status(200).json({});
               } else {
                   res.status(200).json({ match_id: match.id });
               }

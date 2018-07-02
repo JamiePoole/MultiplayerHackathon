@@ -5,12 +5,10 @@ var Schema = mongoose.Schema;
 
 var MatchSchema = new Schema({
     owner_id: {
-        type: String,
-        required: 'Owner Id not specified'
+        type: String
     },
     opponent_id: {
-        type: String,
-        required: 'Opponent Id not specified'
+        type: String
     },
     game_id: {
         type: Number,
